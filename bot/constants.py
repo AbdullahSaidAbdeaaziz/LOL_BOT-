@@ -1,0 +1,1 @@
+BASE_URL = f"https://u.gg/lol/profile"
