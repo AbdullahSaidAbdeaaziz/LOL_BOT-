@@ -1,5 +1,5 @@
 from cx_Freeze import setup, Executable
-import os
+# import os
 
 base = None
 # desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
@@ -7,7 +7,7 @@ executables = [Executable(
     script="main.py", base=base, icon="league.ico", target_name="LOL-Checker"
 )]
 
-packages = ["idna", "selenium", "prettytable", "os"]
+packages = ["selenium", "prettytable", "os"]
 options = {
     'build_exe': {
         'packages': packages,

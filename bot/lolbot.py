@@ -94,7 +94,7 @@ class LOL(webdriver.Chrome):
         path_folder = r"./Summoners"
         if not os.path.exists(path_folder):
             os.makedirs(path_folder)
-        path_folder_in_nor_active = fr"{path_folder}/{self.__active}"
+        path_folder_in_nor_active = fr"{path_folder}/{self.__active}s"
         if not os.path.exists(path_folder_in_nor_active):
             os.makedirs(path_folder_in_nor_active)
 
