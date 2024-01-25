@@ -21,3 +21,7 @@ go to [release](https://github.com/AbdullahSaidAbdeaaziz/LOL_BOT-/releases/tag/v
 
 ### OUTPUT
 - In `Summoners/` folder.
+
+### Contribution
+
+- are welcome ping me with your `pull request`.
