@@ -9,6 +9,7 @@ packaging==23.2
 pefile==2023.2.7
 prettytable==3.9.0
 pycparser==2.21
+pyfiglet==1.0.2
 pyinstaller==6.3.0
 pyinstaller-hooks-contrib==2024.0
 PySocks==1.7.1

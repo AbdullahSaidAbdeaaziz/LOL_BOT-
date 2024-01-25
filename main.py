@@ -1,6 +1,6 @@
 from bot.lolbot import LOL
-
-
+from multiprocessing.pool import ThreadPool
+from pyfiglet import figlet_format
 def read_summoners_file():
     with open(r"Summoners.txt", "r") as sums:
         summoners = sums.readlines()
@@ -21,13 +21,21 @@ def get_summoner(region: str, name: str, tag: int or str):
 
 
 def main():
-    # print(figlet_format("LOL Checker"), "Developer By https://github.com/AbdullahSaidAbdeaaziz")
+    print(figlet_format("LOL Checker"), "Developer By https://github.com/AbdullahSaidAbdeaaziz")
     summoners = read_summoners_file()
-    print(summoners)
+    summoners = [summoner.split() for summoner in summoners]
+    SIZE_THREADS = len(summoners)
+    print("Fetching Summoners Data.....")
+    with ThreadPool(SIZE_THREADS) as pool:
+        for _ in pool.starmap(get_summoner, summoners):
+            pass
 
-    for summoner in summoners:
-        region, name, tag = summoner.split()
-        get_summoner(region, name, tag)
+    # for summoner in summoners:
+    #     region, name, tag = summoner.split()
+    #     print(f"{name}#{tag}")
+    #     print("Fetching Summoner is data....")
+    #     get_summoner(region, name, tag)
+    #     print("Done fetching Summoner")
 
 
 if __name__ == '__main__':
