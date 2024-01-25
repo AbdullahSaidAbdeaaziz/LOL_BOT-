@@ -46,7 +46,7 @@ class LOL(webdriver.Chrome):
         time = last_match[-1]
         NUMBER_OF_INACTIVE = 3
         if "days" in time:
-            num_days = int(time[0])
+            num_days = int(time.split()[0])
             if num_days >= NUMBER_OF_INACTIVE:
                 return False
         return True
