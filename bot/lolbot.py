@@ -9,7 +9,8 @@ import os
 
 class LOL(webdriver.Chrome):
     def __init__(self, region, username, tag):
-        super(LOL, self).__init__()
+        options = webdriver.ChromeOptions()
+        super(LOL, self).__init__(options=options)
         self.__summoner_name = f"{username}#{tag}"
         self.__region = region[:-1]
         self.__active = "Active"
@@ -45,10 +46,10 @@ class LOL(webdriver.Chrome):
         last_match = self.last_match_played()
         time = last_match[-1]
         Level = int(self.get_level_summoner())
-        NUMBER_OF_INACTIVE = 3
+        NUMBER_OF_INACTIVE = 2
         if "days" in time:
             num_days = int(time.split()[0])
-            if num_days >= NUMBER_OF_INACTIVE or Level < 30:
+            if num_days >= NUMBER_OF_INACTIVE and Level < 30:
                 return False
         return True
 
@@ -92,8 +93,12 @@ class LOL(webdriver.Chrome):
 
     def display_in_file(self, table):
         path_folder = r"./Summoners"
+        if not self.is_active():
+            self.__active = "InActive"
+
         if not os.path.exists(path_folder):
             os.makedirs(path_folder)
+
         path_folder_in_nor_active = fr"{path_folder}/{self.__active}s"
         if not os.path.exists(path_folder_in_nor_active):
             os.makedirs(path_folder_in_nor_active)
