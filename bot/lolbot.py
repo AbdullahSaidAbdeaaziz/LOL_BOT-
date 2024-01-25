@@ -44,10 +44,11 @@ class LOL(webdriver.Chrome):
     def is_active(self):
         last_match = self.last_match_played()
         time = last_match[-1]
+        Level = int(self.get_level_summoner())
         NUMBER_OF_INACTIVE = 3
         if "days" in time:
             num_days = int(time.split()[0])
-            if num_days >= NUMBER_OF_INACTIVE:
+            if num_days >= NUMBER_OF_INACTIVE or Level < 30:
                 return False
         return True
 
@@ -93,5 +94,9 @@ class LOL(webdriver.Chrome):
         path_folder = r"./Summoners"
         if not os.path.exists(path_folder):
             os.makedirs(path_folder)
-        with open(fr"{path_folder}/{self.__summoner_name}.txt", "w") as file:
+        path_folder_in_nor_active = fr"{path_folder}/{self.__active}"
+        if not os.path.exists(path_folder_in_nor_active):
+            os.makedirs(path_folder_in_nor_active)
+
+        with open(fr"{path_folder_in_nor_active}/{self.__summoner_name}.txt", "w") as file:
             file.write(table.get_string())
