@@ -11,7 +11,8 @@ packages = ["selenium", "prettytable", "os"]
 options = {
     'build_exe': {
         'packages': packages,
-        'include_files': ['Summoners.txt']
+        'include_files': ['Summoners.txt', 'chromedriver.exe']
+
     },
 }
 

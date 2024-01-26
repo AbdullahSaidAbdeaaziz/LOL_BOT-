@@ -3,6 +3,7 @@ from .constants import BASE_URL
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
 from prettytable import PrettyTable
 import os
 
@@ -10,7 +11,8 @@ import os
 class LOL(webdriver.Chrome):
     def __init__(self, region, username, tag):
         options = webdriver.ChromeOptions()
-        super(LOL, self).__init__(options=options)
+        driver_path = 'chromedriver.exe'
+        super().__init__(service=Service(executable_path=driver_path), options=options)
         self.__summoner_name = f"{username}#{tag}"
         self.__region = region[:-1]
         self.__active = "Active"
@@ -20,6 +22,11 @@ class LOL(webdriver.Chrome):
         self.minimize_window()
 
     def update_stat(self):
+        WebDriverWait(self, 30).until(
+            EC.element_to_be_clickable(
+                (By.CSS_SELECTOR, "button[class='update-button']")
+            )
+        )
         update_btn = self.find_element(by=By.CSS_SELECTOR, value="button[class='update-button']")
         update_btn.click()
         WebDriverWait(self, 30).until(
