@@ -32,8 +32,7 @@ def main():
         THREAD_SIZE = len(summoners)
         print("Fetching Summoners Data.....")
         with ThreadPool(THREAD_SIZE) as pool:
-            for _ in pool.starmap(get_summoner, summoners):
-                pass
+            pool.starmap(get_summoner, summoners)
     except ValueError:
         print("""
 -----|No Summoner found in `Summoners.txt`|-----
