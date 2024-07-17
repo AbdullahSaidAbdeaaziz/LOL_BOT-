@@ -11,6 +11,7 @@ import os
 class LOL(webdriver.Chrome):
     def __init__(self, region, username, tag):
         options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
         driver_path = 'chromedriver.exe'
         super().__init__(service=Service(executable_path=driver_path), options=options)
         self.__summoner_name = f"{username}#{tag}"

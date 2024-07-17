@@ -29,9 +29,9 @@ def main():
         if not summoners:
             raise ValueError
         summoners = [summoner.split() for summoner in summoners]
-        SIZE_THREADS = len(summoners)
+        THREAD_SIZE = len(summoners)
         print("Fetching Summoners Data.....")
-        with ThreadPool(SIZE_THREADS) as pool:
+        with ThreadPool(THREAD_SIZE) as pool:
             for _ in pool.starmap(get_summoner, summoners):
                 pass
     except ValueError:
