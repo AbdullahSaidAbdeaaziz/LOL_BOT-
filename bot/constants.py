@@ -1,1 +1,8 @@
-BASE_URL = f"https://u.gg/lol/profile"
+BASE_URL = "https://u.gg/lol/profile"
+OUTPUT_DIR = "Summoners"
+DEFAULT_TIMEOUT_SECONDS = 30
+IMPLICIT_WAIT_SECONDS = 0.5
+MAX_WORKERS = 4
+INACTIVE_DAYS_THRESHOLD = 2
+MIN_LEVEL_FOR_ACTIVITY = 30
+SUPPORTED_REGIONS = {"euw1", "na1", "eun1"}
