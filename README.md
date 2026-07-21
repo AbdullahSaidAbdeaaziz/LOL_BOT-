@@ -1,34 +1,57 @@
 # LOL BOT
 
-----
+Simple bot that fetches League of Legends summoner information (level, match history, and more).
 
-- It's simple bot that fetch some information
-- about summoner like (level, match history)
+## Quick install (uv)
 
-## Installation
+1. Install [uv](https://docs.astral.sh/uv/).
+2. Make sure Chrome is installed.
+3. From the project root, install dependencies:
+   ```bash
+   uv sync
+   ```
 
-1. Chrome browser should be installed.
-2. python is installed with 3.11 at most don't use 3.12.
-3. Install dependencies from `requirements.txt`.
+## Run
 
-> There file `Summoners.txt` that contains summoners info.
-> 
-> Info in this way
-> 
-> region (euw1, na1, eun1), name, tag
->  - For example: euw1 bezo 123
->
-> Notes:
-> - one summoner per line
-> - blank lines are ignored
-> - comment lines starting with `#` are ignored
+```bash
+uv run python main.py
+```
 
-go to [release](https://github.com/AbdullahSaidAbdeaaziz/LOL_BOT-/releases/tag/v1.0.0) to download `EXE` program.
+You can also run through the script entrypoint:
 
-### OUTPUT
-- In `Summoners/` folder.
-- The bot uses a bounded worker pool (default max 4) to avoid creating too many browser sessions at once.
+```bash
+uv run lol-checker
+```
 
-### Contribution
+## `Summoners.txt` format
 
-- are welcome ping me with your `pull request`.
+Each line must be:
+
+`region name tag`
+
+Supported regions: `euw1`, `na1`, `eun1`
+
+Example:
+
+```txt
+euw1 bezo 123
+na1 ton EUW
+```
+
+Notes:
+- One summoner per line
+- Blank lines are ignored
+- Lines starting with `#` are ignored
+
+## Output
+
+- Files are saved in the `Summoners/` folder.
+- The bot uses a bounded worker pool (default max 4).
+
+## Windows EXE
+
+Download the prebuilt executable from [releases](https://github.com/AbdullahSaidAbdeaaziz/LOL_BOT-/releases/tag/v1.0.0).
+
+## Contribution
+
+PRs are welcome.

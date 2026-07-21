@@ -2,3 +2,4 @@ Summoners/
 RUN/
 __pycache__/
 *.pyc
+.venv/
