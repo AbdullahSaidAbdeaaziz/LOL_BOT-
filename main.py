@@ -1,43 +1,51 @@
 from bot.lolbot import LOL
+from bot.output import write_summoner_output_file
+from bot.parser import parse_summoners_lines
+from bot.constants import MAX_WORKERS
 from multiprocessing.pool import ThreadPool
 from pyfiglet import figlet_format
+from selenium.common.exceptions import WebDriverException, TimeoutException
+import logging
+
+
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
+LOGGER = logging.getLogger(__name__)
 
 
 def read_summoners_file():
     with open(r"Summoners.txt", "r") as sums:
-        summoners = sums.readlines()
-        return summoners
+        return sums.readlines()
 
 
-def get_summoner(region: str, name: str, tag: int or str):
+def get_summoner(region: str, name: str, tag: str):
     try:
-        lol = LOL(region, name, tag)
-
-        lol.update_stat()
-        # lvl = lol.get_level_summoner()
-        # last_match = lol.last_match_played()
-        lol.output_summoner_info()
-
-    except Exception as e:
-        print(e)
+        with LOL(region, name, tag) as lol:
+            lol.update_stat()
+            table = lol.output_summoner_info()
+            write_summoner_output_file(lol.summoner_name, lol.active, table.get_string())
+    except (TimeoutException, WebDriverException, ValueError) as exc:
+        LOGGER.error("Failed to fetch %s#%s (%s): %s", name, tag, region, exc)
 
 
 def main():
     print(figlet_format("LOL Checker"), "Developer By https://github.com/AbdullahSaidAbdeaaziz")
     try:
-        summoners = read_summoners_file()
-        if not summoners:
+        parsed_summoners = parse_summoners_lines(read_summoners_file())
+        if not parsed_summoners:
             raise ValueError
-        summoners = [summoner.split() for summoner in summoners]
-        THREAD_SIZE = len(summoners)
+        thread_size = min(MAX_WORKERS, len(parsed_summoners))
         print("Fetching Summoners Data.....")
-        with ThreadPool(THREAD_SIZE) as pool:
-            pool.starmap(get_summoner, summoners)
-    except ValueError:
+        with ThreadPool(thread_size) as pool:
+            pool.starmap(
+                get_summoner,
+                [(summoner.region, summoner.name, summoner.tag) for summoner in parsed_summoners],
+            )
+    except (ValueError, OSError):
         print("""
 -----|No Summoner found in `Summoners.txt`|-----
-- Please Adding Summoners in this format (region, name, tag)
+- Please Adding Summoners in this format (region, name, tag) and keep one summoner per line
 ([euw1, na1, eun1], bezo ..etc, 123 ..etc)
+- Empty lines and lines starting with # are ignored
 
 for example put in `Summoners.txt`:
 euw1 bezo 123
